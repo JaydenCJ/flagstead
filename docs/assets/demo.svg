@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="430" viewBox="0 0 720 430" font-family="Menlo, Consolas, monospace" font-size="14">
+  <rect width="720" height="430" rx="10" fill="#101418"/>
+  <circle cx="24" cy="22" r="6" fill="#ff5f56"/>
+  <circle cx="44" cy="22" r="6" fill="#ffbd2e"/>
+  <circle cx="64" cy="22" r="6" fill="#27c93f"/>
+  <text x="360" y="27" fill="#8b949e" text-anchor="middle" font-size="12">flagstead — feature flags from one TOML file</text>
+  <g fill="#c9d1d9">
+    <text x="24" y="60"><tspan fill="#7ee787">$</tspan> flagstead serve --file flags.toml</text>
+    <text x="24" y="82"><tspan fill="#79c0ff">flagstead 0.1.0</tspan> serving flags.toml on <tspan fill="#d2a8ff">http://127.0.0.1:4949</tspan></text>
+    <text x="24" y="116"><tspan fill="#7ee787">$</tspan> curl -sI 127.0.0.1:4949/v1/flags | grep -i etag</text>
+    <text x="24" y="138">Etag: <tspan fill="#f778ba">"88bde7d03e8c848bfac95828279d3098"</tspan></text>
+    <text x="24" y="160"><tspan fill="#7ee787">$</tspan> curl -s -o /dev/null -w '%{http_code}' -H 'If-None-Match: "88bd…"' …/v1/flags</text>
+    <text x="24" y="182"><tspan fill="#79c0ff">304</tspan>  <tspan fill="#8b949e"># nothing changed — polling costs zero bytes of body</tspan></text>
+    <text x="24" y="216"><tspan fill="#7ee787">$</tspan> flagstead eval new-checkout --key user-2</text>
+    <text x="24" y="238">flag     <tspan fill="#d2a8ff">new-checkout</tspan></text>
+    <text x="24" y="260">key      user-2</text>
+    <text x="24" y="282">enabled  <tspan fill="#7ee787">true</tspan></text>
+    <text x="24" y="304">reason   <tspan fill="#f778ba">rollout</tspan>   <tspan fill="#8b949e"># 25% gate, sticky per key</tspan></text>
+    <text x="24" y="326">bucket   2040</text>
+    <text x="24" y="360"><tspan fill="#7ee787">$</tspan> git diff flags.toml</text>
+    <text x="24" y="382"><tspan fill="#ff7b72">-rollout = 25</tspan></text>
+    <text x="24" y="404"><tspan fill="#7ee787">+rollout = 50</tspan>  <tspan fill="#8b949e"># your flag change IS the code review</tspan></text>
+  </g>
+</svg>

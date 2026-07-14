@@ -1,0 +1,58 @@
+# Example flagstead file — a realistic mid-sized setup.
+# Validate:  flagstead check --file examples/flags.toml
+# Serve:     flagstead serve --file examples/flags.toml
+
+version = 1
+
+# Kill switch: flipping enabled to false turns it off for everyone,
+# including rule matches. One line in a git diff.
+[flags.checkout-v2]
+description = "Rewritten checkout funnel"
+enabled = true
+rollout = 10
+tags = ["checkout", "revenue-critical"]
+
+# Internal staff always get it, regardless of the 10% gate.
+[[flags.checkout-v2.rules]]
+attribute = "email"
+op = "suffix"
+value = "@example.test"
+rollout = 100
+
+# The old mobile app can't render it — force off.
+[[flags.checkout-v2.rules]]
+attribute = "app_version"
+op = "lt"
+value = "3.20"
+enabled = false
+
+# A pure A/B/C experiment at full rollout.
+[flags.onboarding-copy]
+description = "Onboarding headline experiment"
+enabled = true
+
+[[flags.onboarding-copy.variants]]
+name = "control"
+weight = 50
+
+[[flags.onboarding-copy.variants]]
+name = "benefit-led"
+weight = 25
+
+[[flags.onboarding-copy.variants]]
+name = "social-proof"
+weight = 25
+
+# A finished experiment, kept for reference, off for everyone.
+[flags.legacy-banner]
+description = "2025 holiday banner (retired)"
+enabled = false
+
+# Remote config: numbers the apps read at startup and re-poll.
+[config.checkout]
+max_cart_items = 50
+payment_timeout_ms = 8000
+
+[config.support]
+chat_enabled = true
+hours = "09:00-18:00 JST"
